@@ -158,3 +158,15 @@ export const searchTweets = async (
 
   return resp;
 };
+
+export const listTimeline = async (
+  list_id: string,
+): Promise<Timeline[]> => {
+  const resp = await apiCall<Timeline[]>("GET", "/lists/statuses.json", {
+    query: {
+      list_id,
+      count: "100",
+    },
+  });
+  return resp;
+};

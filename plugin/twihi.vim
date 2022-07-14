@@ -8,6 +8,7 @@ endif
 let g:loaded_twihi = 1
 
 command! -nargs=+ TwihiSearch call twihi#timeline("search", <q-args>)
+command! -nargs=1 TwihiList call twihi#timeline("list", <q-args>)
 command! -nargs=? TwihiHome call twihi#timeline("home")
 command! -nargs=1 TwihiTimeline call twihi#timeline("user", <f-args>)
 command! TwihiMentions call twihi#timeline("mentions")

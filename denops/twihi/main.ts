@@ -60,6 +60,12 @@ export async function main(denops: Denops): Promise<void> {
       "twihi://reply",
       "setlocal ft=twihi-reply buftype=acwrite",
     );
+
+    helper.define(
+      "BufReadCmd",
+      "twihi://list/?*",
+      `call denops#notify("${denops.name}", "list", [])`,
+    );
   });
 
   denops.dispatcher = {
@@ -147,6 +153,18 @@ export async function main(denops: Denops): Promise<void> {
 
     async mediaAddFromClipboard(): Promise<string> {
       return await actionAddMediaFromClipboard();
+    },
+
+    async list(): Promise<void> {
+      try {
+        const bufname = await denops.call("bufname") as string;
+        const list_id = bufname.replace("twihi://list/", "");
+        console.log("loading list...");
+        await actionOpenTimeline(denops, "list", { list_id });
+        await denops.cmd("echo '' | redraw!");
+      } catch (e) {
+        console.error(e.message);
+      }
     },
   };
 

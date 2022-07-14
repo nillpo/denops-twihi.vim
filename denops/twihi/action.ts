@@ -1,6 +1,7 @@
 import {
   homeTimeline,
   likeTweet,
+  listTimeline,
   mentionsTimeline,
   retweet,
   searchTweets,
@@ -28,13 +29,14 @@ import { Media, Timeline, Update } from "./type.d.ts";
 import { expandQuotedStatus } from "./_util/timeline.ts";
 import { ensureFile } from "./_util/ensure.ts";
 
-type TimelineType = "home" | "user" | "mentions" | "search";
+type TimelineType = "home" | "user" | "mentions" | "search" | "list";
 
 const dateTimeFormat = "yyyy/MM/dd HH:mm:ss";
 
 export type GetTimelineOpts = {
   screenName?: string;
   query?: string;
+  list_id?: string;
 };
 
 export const getTimeline = async (
@@ -61,6 +63,9 @@ export const getTimeline = async (
         const { statuses } = await searchTweets(opts!.query!);
         timelines = statuses;
       }
+      break;
+    case "list":
+      timelines = await listTimeline(opts!.list_id!);
       break;
   }
 
